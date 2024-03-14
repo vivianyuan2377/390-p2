@@ -26,18 +26,22 @@
 ; may find the assoc procedure useful.
 (define (dictionary)
   (let ((dic '()))
-    (lambda (message . args)  ; replace with your solution
-      (case (car message)
+    (lambda (message . args) 
+      (case message
+      ; contains: if assoc returns a key, then return True. 
         ((contains)
-          (not (null? (assoc (cadr args) entries))))
+          (not (null? (assoc args dic))))
+      ; insert: reset dic to be a new pair + dic
         ((insert)
-          (set! entries (cons (cons (cadr args) (caddr args)) entries)))
+          (set! dic (cons (cons (car args) (cdr args)) dic)))
+      ; get: get cdr of returned key val pair
         ((get)
-          (cdr (assoc (cadr args) entries)))
+          (cdr (assoc args dic)))
+      ; length: use length function
         ((length)
-          (length entries))
+          (length dic))
         (else
-          (error "Unsupported operation")
+          (error "Unsupported operation"))
       )
     )
   )

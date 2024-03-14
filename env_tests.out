@@ -1,0 +1,57 @@
+Running dictionary tests...
+pass
+Error: #t not false
+pass
+pass
+Error: 2 not equal? to 5
+pass
+pass
+pass
+Error: 2 not equal? to 5
+Error: 2 not equal? to -3
+pass
+pass
+pass
+Error: 3 not equal? to 2
+Error: 2 not equal? to 3
+Error: 2 not equal? to 8
+pass
+pass
+pass
+pass
+Error: 2 not equal? to #f
+Error: 2 not equal? to ()
+Error: 2 not equal? to 0
+Error: 2 not equal? to ""
+Running frame tests...
+Error: () not false
+pass
+Error: () not equal? to 3
+Error: () not equal? to 3
+Error: () not equal? to (4)
+Error: () not false
+pass
+Error: () not false
+Error: () not equal? to 5
+Error: () not equal? to 6
+Error: () not equal? to 3
+Error: () not equal? to 6
+Error: () not false
+Error: () not false
+Error: () not false
+pass
+Error: () not equal? to 5
+Error: () not equal? to 6
+Error: () not equal? to 8
+Error: () not equal? to 5
+Error: () not equal? to 6
+Error: () not equal? to 9
+pass
+pass
+pass
+pass
+Error: () not equal? to #f
+pass
+Error: () not equal? to 0
+Error: () not equal? to ""
+Done.
