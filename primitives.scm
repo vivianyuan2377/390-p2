@@ -59,7 +59,7 @@
 )
 
 (define (eval-args-with-env args env)
-  (map (lambda (expr) (scheme-eval expr env)) args))
+  (map (lambda (arg) (scheme-eval arg env)) args))
 
 ; Returns an object representing the given name, expected number of
 ; arguments, and library implementation for a primitive procedure.
