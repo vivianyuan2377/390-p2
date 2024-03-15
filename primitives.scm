@@ -91,7 +91,7 @@
                 (environment (car args))
                 (evaluated-args (eval-args-with-env (cdr args) environment))
               )
-              (apply name evaluated-args) ; THIS LINE HAS ERROR
+              (apply native-impl evaluated-args) ; THIS LINE HAS ERROR
             )
           )
           (else
