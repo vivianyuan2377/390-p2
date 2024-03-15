@@ -83,7 +83,7 @@
 
 ; Implements the quote form.
 (define (scheme-quote env . args)
-  args
+  (car args)
 )
 
 
