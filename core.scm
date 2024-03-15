@@ -26,7 +26,16 @@
          ; special form. Use procedure? to check this. Send the 'call
          ; message to the host procedure, along with the necessary
          ; arguments, to invoke it.
-         '()  ; replace with your solution
+          (let ((proc (scheme-eval (car datum) env)))
+            (cond
+              ((procedure? proc)
+                (apply proc (cons 'call (cons env (cdr datum))))
+              )
+              (else
+                (error "not a procedure")
+              )
+            )
+          )
         )
         ; Add a case for symbols (identifiers) here.
         ((symbol? datum)
