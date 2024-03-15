@@ -70,13 +70,20 @@
 ; Implements a conditional, with a test, a then expression, and an
 ; optional else expression.
 (define (scheme-if env . args)
-  '()  ; replace with your solution
+  (cond 
+    ((scheme-eval (car args) env)
+      (scheme-eval (cadr args) env)
+    )
+    ((not (null? (cddr args)))
+      (scheme-eval (caddr args) env)
+    )
+  )
 )
 
 
 ; Implements the quote form.
 (define (scheme-quote env . args)
-  '()  ; replace with your solution
+  args
 )
 
 
