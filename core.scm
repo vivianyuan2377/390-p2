@@ -29,6 +29,12 @@
          '()  ; replace with your solution
         )
         ; Add a case for symbols (identifiers) here.
+        ((symbol? datum)
+          (if (env 'contains datum)
+            (env 'get datum)
+            (error "unknown identifier undefined")
+          )
+        )
         (else (error "cannot evaluate" datum))
   )
 )
