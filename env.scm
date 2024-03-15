@@ -28,16 +28,22 @@
   (let ((dic '()))
     (lambda (message . args) 
       (case message
-      ; contains: if assoc returns a key, then return True. 
         ((contains)
-          (not (null? (assoc args dic))))
-      ; insert: reset dic to be a new pair + dic
+          (assoc (car args) dic))
         ((insert)
-          (set! dic (cons (cons (car args) (cdr args)) dic)))
-      ; get: get cdr of returned key val pair
+          (let ((pair-found (assoc (car args) dic)))
+            (if pair-found
+              (set-cdr! pair-found (cadr args))
+              (set! dic (cons (cons (car args) (cadr args)) dic))
+            )
+          ))
         ((get)
-          (cdr (assoc args dic)))
-      ; length: use length function
+          (let ((pair-found (assoc (car args) dic)))
+            (if pair-found
+              (cdr pair-found)
+              (error "Key not found in dictionary")
+            )
+          ))
         ((length)
           (length dic))
         (else
