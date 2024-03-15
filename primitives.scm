@@ -58,6 +58,8 @@
   )
 )
 
+(define (eval-args-with-env args env)
+  (map (lambda (expr) (scheme-eval expr env)) args))
 
 ; Returns an object representing the given name, expected number of
 ; arguments, and library implementation for a primitive procedure.
@@ -77,7 +79,30 @@
 ;   [primitive procedure <name>]
 ; where <name> is the name passed in to primitive-procedure.
 (define (primitive-procedure name arg-count native-impl)
-  '()  ; replace with your code
+  (lambda (message . args)
+    (case message
+      ((to-string)
+        (string-append "[primitive procedure " (symbol->string name) "]")
+      )
+      ((call)
+        (cond
+          ((= (- (length args) 1) arg-count)
+            (let* (
+                (environment (car args))
+                (evaluated-args (eval-args-with-env (cdr args) environment))
+              )
+              (apply name evaluated-args) ; THIS LINE HAS ERROR
+            )
+          )
+          (else
+            (arity-error name arg-count (- (length args) 1))
+          )
+        )
+      )
+      (else
+        (error "Unsupported primitive procedure message"))
+    )
+  )
 )
 
 
