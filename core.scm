@@ -52,7 +52,18 @@
 ; Implements the begin form, which consists of a sequence of
 ; expressions.
 (define (scheme-begin env . args)
-  '()  ; replace with your solution
+  ; replace with your solution
+  (if (>= (length args) 1)
+    (scheme-begin-impl env args '())
+    (error "Begin with 0 args") 
+  )
+)
+
+(define (scheme-begin-impl env args res)
+  (if (null? args)
+    res
+    (scheme-begin-impl env (cdr args) (scheme-eval (car args) env))
+  )
 )
 
 
@@ -138,7 +149,17 @@
 ;   [syntax <name>]
 ; where <name> is the name passed in to primitive-procedure.
 (define (special-form name native-impl)
-  '()  ; replace with your solution
+  ; replace with your solution
+  (lambda (message . args)
+    (case message
+      ((to-string)
+        (string-append "[syntax " (symbol->string name) "]"))
+      ((call)
+        (apply native-impl args))
+      (else
+        (error "Unsupported special form message"))
+    )
+  )
 )
 
 
