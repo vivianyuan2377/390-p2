@@ -109,7 +109,43 @@
 ;   [lambda procedure <name>]
 ; where <name> is the name passed in to primitive-procedure.
 (define (lambda-procedure name formals body parent-env)
-  '()  ; replace with your solution
+  ; replace with your solution
+  (lambda (message . args)
+    (case message
+      ((to-string)
+        (string-append "[lambda procedure " (symbol->string name) "]")
+      )
+      ((call)
+        (cond
+          ((= (- (length args) 1) (length formals))
+            (let* (
+                (dynamic-env (car args))
+                (evaluated-args (eval-args-with-env (cdr args) dynamic-env))
+                (extended-env (frame parent-env))
+              )
+              (bind-formals formals evaluated-args extended-env)
+              (apply scheme-begin (cons extended-env body))
+            )
+          )
+          (else
+            (arity-error name (length formals) (- (length args) 1))
+          )
+        )
+      )
+      (else
+        (error "Unsupported primitive procedure message"))
+    )
+  )
+)
+
+
+(define (bind-formals formals evaluated-args extended-env)
+  (cond
+    ((not (null? formals))
+      (extended-env 'insert (car formals) (car evaluated-args))
+      (bind-formals (cdr formals) (cdr evaluated-args) extended-env)
+    )
+  )
 )
 
 
@@ -121,7 +157,10 @@
 ; Use lambda-procedure to create the actual representation of the
 ; procedure.
 (define (scheme-lambda env . args)
-  '()  ; replace with your solution
+  ; replace with your solution
+  (display (car args)) ; BUGGY
+  (display (cadr args))
+  (lambda-procedure '<lambda> (car args) (cadr args) env)
 )
 
 
