@@ -112,22 +112,33 @@
 ;   [lambda procedure <name>]
 ; where <name> is the name passed in to primitive-procedure.
 (define (lambda-procedure name formals body parent-env)
+  (procedure name formals body parent-env 'lambda)
+)
+
+
+(define (mu-procedure name formals body parent-env)
+  (procedure name formals body parent-env 'mu)
+)
+
+
+(define (procedure name formals body parent-env type)
   ; replace with your solution
   (lambda (message . args)
     (case message
       ((to-string)
-        (string-append "[lambda procedure " (symbol->string name) "]")
+        (string-append "[mu procedure " (symbol->string name) "]")
       )
       ((call)
         (cond
           ((= (- (length args) 1) (length formals))
             (let* (
-                (dynamic-env (car args))
-                (evaluated-args (eval-args-with-env (cdr args) dynamic-env))
-                (extended-env (frame parent-env))
-              )
-              (bind-formals formals evaluated-args extended-env)
-              (apply scheme-begin (cons extended-env body))
+              (dynamic-env (car args))
+              (evaluated-args (eval-args-with-env (cdr args) dynamic-env))
+              (extended-env (if (eq? type 'mu)
+                              (frame dynamic-env)
+                              (frame parent-env))))
+                (bind-formals formals evaluated-args extended-env)
+                (apply scheme-begin (cons extended-env body))
             )
           )
           (else
@@ -160,10 +171,15 @@
 ; Use lambda-procedure to create the actual representation of the
 ; procedure.
 (define (scheme-lambda env . args)
-  ; replace with your solution
   (check-formals (car args))
   ;(check-body (cadr args)) TODO need to implement
   (lambda-procedure 'name (car args) (cdr args) env)
+)
+
+(define (scheme-mu env . args)
+  (check-formals (car args))
+  ;(check-body (cadr args)) TODO need to implement
+  (mu-procedure 'name (car args) (cdr args) env)
 )
 
 (define (has-duplicates? lst)
@@ -284,5 +300,6 @@
   (env 'insert 'lambda (special-form 'lambda scheme-lambda))
   (env 'insert 'define (special-form 'define scheme-define))
   ; Insert the mu form here.
+  (env 'insert 'mu (special-form 'mu scheme-mu))
   env
 )
