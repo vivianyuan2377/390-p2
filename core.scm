@@ -158,9 +158,31 @@
 ; procedure.
 (define (scheme-lambda env . args)
   ; replace with your solution
-  (display (car args)) ; BUGGY
-  (display (cadr args))
-  (lambda-procedure '<lambda> (car args) (cadr args) env)
+  (check-formals (car args))
+  ;(check-body (cadr args)) TODO need to implement
+  (lambda-procedure 'name (car args) (cdr args) env)
+)
+
+(define (check-formals formals)
+  (if (not (or 
+              (symbol? formals) 
+              (and (pair? formals) (every identifier? formals)) 
+              (and (pair? formals) (not (every identifier? (cdr (reverse formals)))))
+      ))
+    (error "Invalid formals")
+  )
+)
+
+(define (identifier? x)
+  (and (symbol? x) (not (eq? x '())))
+)
+
+(define (every pred lst)
+  (cond
+    ((null? lst) #t)
+    ((not (pred (car lst))) #f)
+    (else (every pred (cdr lst)))
+  )
 )
 
 
