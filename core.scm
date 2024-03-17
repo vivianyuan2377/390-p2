@@ -71,6 +71,9 @@
 ; optional else expression.
 (define (scheme-if env . args)
   (cond 
+    ((not (or (= (length args) 2) (= (length args) 3)))
+      (error "Wrong number of args for if-statement")
+    )
     ((scheme-eval (car args) env)
       (scheme-eval (cadr args) env)
     )
@@ -163,12 +166,35 @@
   (lambda-procedure 'name (car args) (cdr args) env)
 )
 
+(define (has-duplicates? lst)
+  (if (null? lst)
+    #f
+    (begin
+      (if (lst-has-target (cdr lst) (car lst))
+        #t
+        (has-duplicates? (cdr lst)))
+    )
+  )
+)
+
+(define (lst-has-target lst target)
+  (cond
+    ((null? lst)
+      #f)
+    ((equal? (car lst) target)
+      #t)
+    (else 
+      (lst-has-target (cdr lst) target))
+  )
+)
+
 (define (check-formals formals)
-  (if (not (or 
-              (symbol? formals) 
-              (and (pair? formals) (every identifier? formals)) 
-              (and (pair? formals) (not (every identifier? (cdr (reverse formals)))))
-      ))
+  (if (or (not (or (symbol? formals) 
+               (and (pair? formals) (every identifier? formals)) 
+               (and (pair? formals) (not (every identifier? (cdr (reverse formals)))))
+          ))
+          (has-duplicates? formals)
+      )
     (error "Invalid formals")
   )
 )
@@ -196,7 +222,25 @@
 ; For procedure definitions, use lambda-procedure to create the actual
 ; representation of the procedure.
 (define (scheme-define env . args)
-  '()  ; replace with your solution
+  (cond
+    ((not (= (length args) 2))
+      (error "multiple arguments in define" args)
+    )
+    ((identifier? (car args))
+      ; first form
+      (env 'insert (car args) (scheme-eval (cadr args) env))
+      (car args)
+    )
+    (else
+      ; second form
+      (if (or (not (list? (car args))) (not (identifier? (caar args))))
+        (error "Define has no variable"))
+      (check-formals (cdar args))
+      ; (check-body (cadr args)) - implement!!
+      (env 'insert (caar args) (scheme-lambda env (cdar args) (cadr args)))
+      (caar args)
+    )
+  )
 )
 
 
