@@ -19,9 +19,9 @@ pass
 pass
 pass
 pass
-Error: "[mu procedure foo]" not equal? to "[lambda procedure foo]"
-Error: "[mu procedure bar]" not equal? to "[lambda procedure bar]"
-Error: "[mu procedure baz]" not equal? to "[lambda procedure baz]"
+pass
+pass
+pass
 Running scheme-lambda tests...
 pass
 pass

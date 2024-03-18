@@ -126,7 +126,10 @@
   (lambda (message . args)
     (case message
       ((to-string)
-        (string-append "[mu procedure " (symbol->string name) "]")
+        (string-append (if (eq? type 'mu)
+                              "[mu procedure "
+                              "[lambda procedure ") 
+                       (symbol->string name) "]")
       )
       ((call)
         (cond
@@ -205,12 +208,9 @@
 )
 
 (define (check-formals formals)
-  (if (or (not (or (symbol? formals) 
-               (and (pair? formals) (every identifier? formals)) 
-               (and (pair? formals) (not (every identifier? (cdr (reverse formals)))))
-          ))
-          (has-duplicates? formals)
-      )
+  (if (or (not (or (identifier? formals) 
+                (every symbol? formals)))
+          (has-duplicates? formals))
     (error "Invalid formals")
   )
 )

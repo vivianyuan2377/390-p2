@@ -132,7 +132,7 @@ scm> 1
 scm> 1
 scm> 1
 scm> 1
-scm> Error:
+scm> loop
 scm> 12
 scm> 2
 2
