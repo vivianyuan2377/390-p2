@@ -239,11 +239,10 @@
 ; representation of the procedure.
 (define (scheme-define env . args)
   (cond
-    ((not (= (length args) 2))
-      (error "multiple arguments in define" args)
-    )
     ((identifier? (car args))
-      ; first form
+      (if (not (= (length args) 2))
+        (error "multiple expressions in define variable" args)
+      )
       (env 'insert (car args) (scheme-eval (cadr args) env))
       (car args)
     )
@@ -251,9 +250,9 @@
       ; second form
       (if (or (not (list? (car args))) (not (identifier? (caar args))))
         (error "Define has no variable"))
-      (check-formals (cdar args))
+      ; (check-formals (cdar args))
       ; (check-body (cadr args)) - implement!!
-      (env 'insert (caar args) (scheme-lambda env (cdar args) (cadr args)))
+      (env 'insert (caar args) (apply scheme-lambda env (cdar args) (cdr args)))
       (caar args)
     )
   )

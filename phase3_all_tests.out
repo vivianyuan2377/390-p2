@@ -34,7 +34,7 @@ scm> 3.00009155413138
 scm> 11.704699917758145
 scm> 1.7739279023207892
 scm> 1000.000369924366
-scm> Error:
+scm> sqrt
 scm> 3.00009155413138
 scm> 11.704699917758145
 scm> 1.7739279023207892
@@ -48,8 +48,8 @@ scm> identity
 scm> sum-integers
 scm> 55
 scm> 12
-scm> Error:
-scm> Error:
+scm> f
+scm> 456
 scm> x
 scm> 38
 scm> add-rat
@@ -69,16 +69,16 @@ scm> ((1 . 2) 3 . 4)
 scm> make-rat
 scm> numer
 scm> denom
-scm> Error:
+scm> print-rat
 scm> one-half
-scm> Error:
+scm> 1/2
 scm> one-third
-scm> Error:
-scm> Error:
-scm> Error:
+scm> 5/6
+scm> 1/6
+scm> 6/9
 scm> gcd
 scm> make-rat
-scm> Error:
+scm> 2/3
 scm> one-through-four
 scm> (1 2 3 4)
 scm> 1
@@ -136,8 +136,9 @@ scm> loop
 scm> 12
 scm> 2
 2
-scm> Error:
-scm> Error:
+scm> print-and-square
+scm> 12
+144
 scm> Error:
 scm> hello
 4
